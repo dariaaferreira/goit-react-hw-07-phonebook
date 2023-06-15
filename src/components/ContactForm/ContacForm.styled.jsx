@@ -53,3 +53,9 @@ export const Button = styled.button`
     transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 `;
+
+export const Message = styled.p`
+  font-size: 14px;
+  color: #fff; 
+  margin: 0; 
+`;
