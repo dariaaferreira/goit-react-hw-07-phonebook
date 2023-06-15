@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import ContactListItem from '../ContactListItem/ContactListItem';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getContacts, getFilter } from '../../redux/selectors';
-
+import { fetchContacts } from 'redux/operations';
 import { ListItems, Text } from './ContactList.styled';
 
 const ContactList = () => {
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
+  const dispatch = useDispatch();
 
   const getVisibleContacts = () => {
     const normalizedFilter = filter.toLowerCase();
@@ -18,6 +18,14 @@ const ContactList = () => {
       return contactName.includes(normalizedFilter);
     });
   };
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  if (!contacts) {
+    return;
+  }
 
   return (
     <>
@@ -35,13 +43,3 @@ const ContactList = () => {
 };
 
 export default ContactList;
-
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    }).isRequired,
-  ),
-};
